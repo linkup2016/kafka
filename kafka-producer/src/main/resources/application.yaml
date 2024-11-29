@@ -1,0 +1,22 @@
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: "localhost:9092"  # Kafka broker address
+      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"  # Serializer for keys
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"  # Serializer for values
+      acks: "all"  # Acknowledgments to wait for before considering a message successfully sent
+      retries: 3  # Number of retries for sending a message in case of failure
+      batch-size: 16384  # Batch size in bytes
+      linger-ms: 1  # Time to wait before sending the batch of messages
+      compression-type: "snappy"  # Compression method (e.g., gzip, snappy)
+      buffer-memory: 33554432  # Amount of memory to buffer
+      max-request-size: 1048576  # Maximum request size in bytes
+      client-id: "kafka-producer-client"  # Client identifier for the producer
+
+# Optional configuration for the consumer if needed
+# spring:
+#   kafka:
+#     consumer:
+#       group-id: "my-consumer-group"  # Consumer group ID
+#       auto-offset-reset: "earliest"  # What to do if no offset is found (earliest or latest)
+#       enable-auto-commit: false  # Whe

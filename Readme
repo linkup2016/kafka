@@ -1,0 +1,33 @@
+Kafka Wikimedia Changes Producer
+This project is a Kafka producer that consumes recent changes events from the Wikimedia event stream and sends them to a Kafka topic.
+
+To run locally,follow the following steps:
+
+1. Download kafka and zookeeper from https://kafka.apache.org/downloads
+2. Cd to the kafka-producer directory (e.g cd /OneDrive/IdeaProjects/Installed_Dev_Applications/Kafka/kafka_2.13-3.9.0)
+3. Start Zookeeper: bin/zookeeper-server-start.sh config/zookeeper.properties
+4. Start Kafka: bin/kafka-server-start.sh config/server.properties
+5. Start the application.
+5. To see the output of the producer or the topics run: bin/kafka-console-consumer.sh --topic wikimedia_latest --from-beginning --bootstrap-server localhost:9092    on a new terminal
+
+Source code analysis
+1. The KafkaTopicConfig class creates a new topic.
+2. The WikimediaChangesProducer class is the Kafka producer that consumes changes from the Wikimedia event stream and sends them to WikimediaChangesHandler class for further processing.
+3. The WikimediaChangesHandler class implements an event handler class so that it listens to any event coming from source.
+4. The wikimediaChangesHandler class, upon receiving of an event, uses kafka template to send the event to the Kafka topic.
+5. The kafka cluster that you started listens to the topic created by KafkaTopicConfig class on port 9092.
+6. The topics will remain on the Kafka cluster depending on your settings for the kafka producer in the application.yaml file.
+7. You can see the topics by running: bin/kafka-console-consumer.sh --topic wikimedia_latest --from-beginning --bootstrap-server localhost:9092
+8. You should also see the same in the application console at the bottom of the screen.
+9. The producer is started by calling the sendMessage() method from the main class.
+
+The Consumer
+1. Consumer is built the same way as the producer, but instead of sending messages, it consumes them.
+2. The listener method sits in the KafkaService class. Need to pass the same topic name as the producer.
+3. You can run both the producer and the consumer simultaneously on the same intellij window see events produced and consumed at the same time.
+1. Consumer: bin/kafka-console-consumer.sh --topic wikimedia_latest --from-beginning --bootstrap-server localhost:9092
+
+Source of this project is : https://www.youtube.com/watch?v=TkhU8d-uao8&t=621s
+same bookmarked in Learning folder on chrome.
+
+

@@ -1,7 +1,7 @@
 spring:
   kafka:
     producer:
-      bootstrap-servers: "localhost:9092"  # Kafka broker address
+      bootstrap-servers: "localhost:9093"  # Kafka broker address
       key-serializer: "org.apache.kafka.common.serialization.StringSerializer"  # Serializer for keys
       value-serializer: "org.apache.kafka.common.serialization.StringSerializer"  # Serializer for values
       acks: "all"  # Acknowledgments to wait for before considering a message successfully sent

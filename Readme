@@ -1,7 +1,14 @@
 Kafka Wikimedia Changes Producer
 This project is a Kafka producer that consumes recent changes events from the Wikimedia event stream and sends them to a Kafka topic.
 
-To run locally,follow the following steps:
+1. Using Docker-compose.yaml file to start kafka and zookeeper
+
+Go to the Docker-compose.yaml file and run all the services. Alternatively, you can run using the terminal:docker-compose up -d
+Run the producer application first and then run the consumer.
+You should be able to see message arrived and message consumed logs in producer and consumer logs respectively.
+You can use docker desktop to visually inspect the services running.
+
+To run manually, follow the following steps:
 
 1. Download kafka and zookeeper from https://kafka.apache.org/downloads
 2. Cd to the kafka-producer directory (e.g cd /OneDrive/IdeaProjects/Installed_Dev_Applications/Kafka/kafka_2.13-3.9.0)
@@ -29,5 +36,3 @@ The Consumer
 
 Source of this project is : https://www.youtube.com/watch?v=TkhU8d-uao8&t=621s
 same bookmarked in Learning folder on chrome.
-
-

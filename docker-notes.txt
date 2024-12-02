@@ -1,0 +1,25 @@
+Docker
+
+is a tool that helps developers build, ship, and run applications consistently across different environments.
+Think of it as a "container" system that bundles up everything an application needs (code, libraries, dependencies, etc.) into one package.
+This makes it easy to run the application on any computer without worrying about compatibility issues.
+
+Docker's english meaning is someone or something that is responsible for containing things in a container and set them up for transport.
+Same way, Docker is a tool that contains an application and its environment for transport. The contaiers are self-contained and can run on any machine.
+
+A Docker Image
+
+In Docker, an image is like a blueprint or a template that defines everything your application needs to run, such as:
+
+The application code.
+Runtime environment (e.g., Python, Java, Node.js).
+Dependencies and libraries.
+System tools or configurations.
+Think of it as a snapshot of your application and its environment, all bundled together.
+
+Snapshot is a term used to describe a point in time when something happens. Just like a snapshot picture of your kid at his birthday party, it's a snapshot of your application and its environment at a specific moment.
+It may change over time as your application grows or evolves.
+
+A Docker image is the blueprint (template) of your application and its environment. When you run the image, Docker creates a container from it. The container the app that runs.
+
+

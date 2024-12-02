@@ -1,0 +1,186 @@
+TOPICS and PARTITIONS
+
+Within a Kafka cluster, messages are stored, not the topics themselves.
+
+Here’s the breakdown to clarify:
+
+What is Stored in Kafka?
+Messages:
+
+These are the actual units of data (events) that Kafka processes and delivers.
+Examples of messages:
+"Order ID: 123, Amount: $45"
+"Temperature: 25°C, Time: 12:00 PM"
+Topics (Logical Containers):
+
+A topic is just a logical abstraction—a named category or "label" used to organize and group messages.
+Kafka doesn't store the "topic" itself as a physical entity. Instead:
+Messages are stored inside partitions, which are part of topics.
+Each topic is divided into one or more partitions.
+Partitions:
+
+Partitions are the physical storage units within Kafka.
+Messages are written to and stored in these partitions.
+Partitions exist as actual files on disk in Kafka brokers.
+How It Works in Practice
+When a producer sends a message to Kafka:
+
+Topic as a Label: The producer specifies the topic (e.g., Orders) for the message.
+Partition for Storage: Kafka determines which partition of the topic will store the message (based on keys, round-robin, or other logic).
+Message Storage: The message is stored within the partition on the Kafka broker.
+Visualization
+Here’s how data is physically stored in Kafka:
+
+mathematica
+Copy code
+Kafka Cluster (made up of brokers):
+    Broker 1:
+        Partition 0 (of Topic "Orders"): [Message 1, Message 2, ...]
+        Partition 1 (of Topic "Payments"): [Message 1, Message 2, ...]
+
+    Broker 2:
+        Partition 1 (of Topic "Orders"): [Message 3, Message 4, ...]
+        Partition 0 (of Topic "Payments"): [Message 3, Message 4, ...]
+Summary
+Messages are the actual data being stored in Kafka.
+Partitions (inside topics) are the physical structures where these messages are stored.
+Topics are just logical names that organize and route messages but aren’t stored themselves.
+Think of it like this:
+Kafka clusters store messages inside partitions, and topics are like "folders" pointing to those partitions.
+
+Topic: Orders
+    Partition 0: Electronics Orders
+        Message 1
+        Message 2
+        ...
+    Partition 1: Clothing Orders
+        Message 1
+        Message 2
+        ...
+    Partition 2: Grocery Orders
+        Message 1
+        Message 2
+        ...
+Partitions are like "lanes on a highway," each processing a subset of the topic's events independently.
+Brokers manage the partitions where events are stored.
+
+AVRO and SCHEMA REGISTRY
+
+How Do Avro and the Schema Registry Work Together?
+
+Producer Workflow:{
+    "type": "record",
+    "name": "Event",
+    "namespace": "mediawiki.recentchange",
+    "fields": [
+        {
+            "name": "meta",
+            "type": {
+                "type": "record",
+                "name": "Meta",
+                "fields": [
+                    {
+                        "name": "uri",
+                        "type": "string"
+                    },
+                    {
+                        "name": "request_id",
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "type": "string"
+                    },
+                    {
+                        "name": "dt",
+                        "type": "string"
+                    },
+                    {
+                        "name": "partition",
+                        "type": "int"
+                    },
+                    {
+                        "name": "offset",
+                        "type": "long"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "id",
+            "type": "long"
+        },
+        {
+            "name": "type",
+            "type": "string"
+        },
+        {
+            "name": "namespace",
+            "type": "int"
+        },
+        {
+            "name": "title",
+            "type": "string"
+        },
+        {
+            "name": "title_url",
+            "type": "string"
+        },
+        {
+            "name": "comment",
+            "type": "string"
+        },
+        {
+            "name": "timestamp",
+            "type": "long"
+        },
+        {
+            "name": "user",
+            "type": "string"
+        },
+        {
+            "name": "bot",
+            "type": "boolean"
+        },
+        {
+            "name": "notify_url",
+            "type": "string"
+        },
+        {
+            "name": "minor",
+            "type": "boolean"
+        },
+        {
+            "name": "patrolled",
+            "type": "boolean"
+        },
+        {
+            "name": "length",
+            "type": "int"
+        },
+        {
+            "name": "server_name",
+            "type": "string"
+        },
+        {
+            "name": "server_script_path",
+            "type": "string"
+        },
+        {
+            "name": "wiki",
+            "type": "string"
+        },
+        {
+            "name": "parsedcomment",
+            "type": "string"
+        }
+    ]
+}
+The producer defines the schema for the data it wants to send.
+It registers the schema with the Schema Registry, which assigns the schema a unique ID (e.g., schema_id = 5).
+The producer serializes the data using the schema, embedding only the schema ID (not the full schema) in the message.
+The serialized message (binary format) is sent to a Kafka topic.
+Consumer Workflow:
+The consumer receives the serialized message from the Kafka topic.
+It extracts the schema ID from the message and queries the Schema Registry to fetch the correct schema.
+Using the schema, the consumer deserializes the message into a readable format (e.g., JSON, object in memory).

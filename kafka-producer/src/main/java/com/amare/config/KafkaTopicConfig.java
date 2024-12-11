@@ -1,6 +1,7 @@
 package com.amare.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
@@ -8,8 +9,10 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicConfig {
 
+    @Value("${wikimedia.topic.name}")
+    private String topicName;
     @Bean
     public NewTopic topic() {
-        return TopicBuilder.name("wikimedia_latest").build();
+        return TopicBuilder.name(topicName).build();
     }
 }

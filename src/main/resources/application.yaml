@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: kafka-implementation
+
+#  profiles:
+#    active: "docker"
+
+  kafka:
+    bootstrap-servers: "localhost:9093"
+    producer:
+       # Kafka broker address
+      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"  # Serializer for keys
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"  # Serializer for values
+      acks: "all"  # Acknowledgments to wait for before considering a message successfully sent
+      retries: 3  # Number of retries for sending a message in case of failure
+      batch-size: 16384  # Batch size in bytes
+      linger-ms: 1  # Time to wait before sending the batch of messages
+      compression-type: "snappy"  # Compression method (e.g., gzip, snappy)
+      buffer-memory: 33554432  # Amount of memory to buffer
+      max-request-size: 1048576  # Maximum request size in bytes
+      client-id: "kafka-producer-client"  # Client identifier for the producer
+
+    consumer:
+#      bootstrap-servers: "localhost:9093" # The comma-separated list of Kafka broker addresses.
+      group-id: "my-group" # The consumer group ID.
+      auto-offset-reset: "earliest" # The offset reset policy for the consumer. Can be set to earliest, latest, or none.
+      key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer" # The deserializer class for the key.
+      value-deserializer: "org.apache.kafka.common.serialization.StringDeserializer" # The deserializer class for the value.
+      max-poll-records: 500 # The maximum number of records to fetch in a single poll.
+      max-poll-interval-ms: 300000 # The maximum time the consumer will wait for records in a poll.
+      enable-auto-commit: true # Whether to enable auto commit of offsets.
+      auto-commit-interval-ms: 5000 # The interval at which offsets are auto committed.
+
+    properties:
+      schema:
+        Registry:
+          url: http://localhost:8081
+      specific:
+        avro:
+          reader: true
+

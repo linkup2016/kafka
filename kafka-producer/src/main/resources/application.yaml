@@ -13,10 +13,7 @@ spring:
       max-request-size: 1048576  # Maximum request size in bytes
       client-id: "kafka-producer-client"  # Client identifier for the producer
 
-# Optional configuration for the consumer if needed
-# spring:
-#   kafka:
-#     consumer:
-#       group-id: "my-consumer-group"  # Consumer group ID
-#       auto-offset-reset: "earliest"  # What to do if no offset is found (earliest or latest)
-#       enable-auto-commit: false  # Whe
+wikimedia:
+  recent-change-url: https://stream.wikimedia.org/v2/stream/recentchange
+  topic.name: wikimedia_latest
+

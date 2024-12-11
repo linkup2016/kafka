@@ -16,7 +16,7 @@ To run manually, follow the following steps:
 4. Start Kafka: bin/kafka-server-start.sh config/server.properties
 5. Start the application.
 5. To see the output of the producer or the topics run: bin/kafka-console-consumer.sh --topic wikimedia_latest --from-beginning --bootstrap-server localhost:9092    on a new terminal
-
+6. You should see "[KafkaServer id=1] started (kafka.server.KafkaServer)" in the logs to know kafka is running.
 Source code analysis
 1. The KafkaTopicConfig class creates a new topic.
 2. The WikimediaChangesProducer class is the Kafka producer that consumes changes from the Wikimedia event stream and sends them to WikimediaChangesHandler class for further processing.

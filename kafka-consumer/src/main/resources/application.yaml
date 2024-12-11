@@ -2,7 +2,7 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: "localhost:9093" # The comma-separated list of Kafka broker addresses.
-      group-id: "my-group" # The consumer group ID.
+      group.id: my-group # The consumer group ID.
       auto-offset-reset: "earliest" # The offset reset policy for the consumer. Can be set to earliest, latest, or none.
       key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer" # The deserializer class for the key.
       value-deserializer: "org.apache.kafka.common.serialization.StringDeserializer" # The deserializer class for the value.
@@ -10,3 +10,11 @@ spring:
       max-poll-interval-ms: 300000 # The maximum time the consumer will wait for records in a poll.
       enable-auto-commit: true # Whether to enable auto commit of offsets.
       auto-commit-interval-ms: 5000 # The interval at which offsets are auto committed.
+
+wikimedia:
+  recent-change-url: https://stream.wikimedia.org/v2/stream/recentchange
+  topic.name: wikimedia_latest
+
+logging:
+  level:
+    org.springframework.kafka: DEBUG

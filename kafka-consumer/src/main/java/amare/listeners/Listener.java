@@ -4,7 +4,9 @@ import amare.dto.Event;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,8 @@ import java.util.Map;
 @Slf4j
 @Component
 public class Listener {
+
+    @RetryableTopic(attempts = "3") // Retries 2 times because it works in n-1 way
 
     @KafkaListener(topics = "${wikimedia.topic.name}", groupId = "${spring.kafka.consumer.group.id}")
     public void consume(@Payload final String eventMessage, @Headers Map<String, Object> headers) {
@@ -34,5 +38,10 @@ public class Listener {
         } catch (Exception e) {
             log.error("Error deserializing message", e);
         }
+    }
+
+    @DltHandler
+    public void handleDlt(@Payload final String eventMessage, @Headers Map<String, Object> headers) {
+        log.info("Message sent to DLT. Message: {}", eventMessage);
     }
 }

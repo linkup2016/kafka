@@ -184,3 +184,11 @@ Consumer Workflow:
 The consumer receives the serialized message from the Kafka topic.
 It extracts the schema ID from the message and queries the Schema Registry to fetch the correct schema.
 Using the schema, the consumer deserializes the message into a readable format (e.g., JSON, object in memory).
+
+Handling Errors and retries
+
+Take a look at the handleDlt() method in the Listener class. DLT is short for Dead Letter Topic.
+The handleDlt() method is called when a message fails to be processed and is sent to DLT.
+The @DltHandler annotation indicates that the method should be called when a message fails to be processed.
+You can view the DLT in the control center, which is part of the Kafka UI.
+If you set the retry limit to 3, the message will be sent to DLT twice before giving up. It works in n-1 way.
